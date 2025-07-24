@@ -1,5 +1,5 @@
 const express = require("express");
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 const app = express();
 
 app.get("/scrape", async (req, res) => {
@@ -8,13 +8,12 @@ app.get("/scrape", async (req, res) => {
 
   try {
     const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/google-chrome",
       headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      args: ["--no-sandbox", "--disable-setuid-sandbox"]
     });
 
     const page = await browser.newPage();
-    await page.goto(`https://www.amazon.fr`);
+    await page.goto("https://www.amazon.fr");
     await page.type("#twotabsearchtextbox", keyword, { delay: 50 });
     await page.waitForSelector(".s-suggestion", { timeout: 3000 }).catch(() => {});
 
